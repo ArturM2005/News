@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'домашняя страница';
 });
 Route::get('/hitech', function () {
-    return 'Новости о высоких технологиях';
+    return 'новости о высоких технологиях';
 });
 Route::get('/medicina', function () {
-    return 'Новости о медицине';
+    return 'новости о медицине';
 });
 Route::get('/tag/{tag}', function (string $tag) {
     switch ($tag) {
@@ -31,7 +31,9 @@ Route::get('nauka', function () {
     return 'новости о науке';
 });
 Route::redirect('/news.html/{name?}', '/', 301);
+Route::redirect('/nauka.htm', '/nauka', 301);
 Route::redirect('/nauka.html', '/nauka', 301);
+Route::redirect('/nauka/{smth?}', '/nauka', 301);
 Route::redirect('/nauka/11-10-1999_nobel.htm', '/nauka', 301);
 Route::redirect('/наука', '/nauka', 301);
 Route::redirect('/tag/здоровье', '/medicina', 301);
