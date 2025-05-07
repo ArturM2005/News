@@ -1,62 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Задача
+Дано.
+Допустим, есть новостной сайт.
+У него есть "новые" роуты - они выводят список новостей на соответствующую тематику:
+- /hitech - новости о высоких технологиях
+- /medicina - новости о медицине
+- /tag/{название_тега_на_кириллице_или_латинице}:
+    - /tag/политика
+    - /tag/спорт
+    - /tag/авто
+- /nauka - новости о науке
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+При этом, на сайте есть URL "старых" не актуальных страниц. Например:
+- /news.html
+- /nauka.html
+- /nauka/11-10-1999_nobel.htm
+- /tag/наука
+- /tag/здоровье
+- /tag/hi-tech
+- /internet
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Необходимо:
+1) При открытии страниц для следующих роутов достаточно показать в теле страницы ее тематику.
+- /hitech - вывести текст "новости о высоких технологиях"
+- /medicina - вывести текст "новости о медицине"
+- /tag/{название_тега_на_кириллице_или_латинице}:
+    - /tag/политика - вывести текст "новости политики"
+    - /tag/спорт - вывести текст "новости спорта"
+    - /tag/авто - вывести текст "новости авто"
+- /nauka - новости о науке 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2) При открытии страниц для следующих роутов необходимо сделать 301-й редирект на указанные страницы:
+- /news.html редирект на '/'
+- /nauka.html редирект на /nauka
+- /nauka/11-10-1999_nobel.htm редирект на /nauka
+- /tag/наука редирект на /nauka,
+- /tag/здоровье редирект на /medicina
+- /tag/hi-tech редирект на /hitech
+- /internet редирект на /hitech'
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+При этом, считаем, что полный список "старых" страниц нам не известен. Поэтому надо учесть, что:
 
-## Learning Laravel
+все равно должен быть редирект на '/' для страниц вида:
+- /news.html могут быть и get любые параметры (/news.html?a=b&c=d) 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# News
+все равно должен быть редирект на '/nauka' для страниц вида:
+- /nauka.html
+- /nauka.htm
+- /nauka/11-10-1999_nobel.htm
+- /nauka/еще_часть_роута_любая
+Важно, чтобы при открытии страницы /nauka - отображался текст "новости о науке" (как сказано выше). И редиректа с этой страницы не было.
